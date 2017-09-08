@@ -1,9 +1,10 @@
 package org.domain.hibernate.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Person")
@@ -15,7 +16,12 @@ public class Person {
 
 	private String name;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	private List<Phone> phones;
+
 	public Person() {
+		this.phones = new ArrayList<>();
 	}
 
 	public String getName() {
@@ -24,6 +30,18 @@ public class Person {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
+	}
+
+	public void addPhone(Phone phone) {
+		this.phones.add(phone);
 	}
 
 	@Override
@@ -49,6 +67,7 @@ public class Person {
 		return "Person{" +
 				"id=" + id +
 				", name='" + name + '\'' +
+				", phones=" + phones +
 				'}';
 	}
 }

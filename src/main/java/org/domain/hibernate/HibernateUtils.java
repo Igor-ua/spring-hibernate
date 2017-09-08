@@ -1,6 +1,7 @@
 package org.domain.hibernate;
 
 import org.domain.hibernate.entities.Person;
+import org.domain.hibernate.entities.Phone;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -23,6 +24,7 @@ public class HibernateUtils {
 	private static final String HIBERNATE_CONNECTION_USERNAME = "sa";
 	private static final String HIBERNATE_CONNECTION_PASSWORD = "";
 	private static final String HIBERNATE_DIALECT = "org.hibernate.dialect.H2Dialect";
+	private static final String HIBERNATE_AUTOCOMMIT = "false";
 	// Values: validate, create, update, create-drop
 	private static final String HIBERNATE_HBM_2_DDL_AUTO = "create";
 	private static final String HIBERNATE_CURRENT_SESSION_CONTEXT_CLASS = "thread";
@@ -43,6 +45,7 @@ public class HibernateUtils {
 
 		Configuration configuration = new Configuration();
 		configuration.setProperty("hibernate.connection.url", hibernateConnectionURL);
+		configuration.setProperty("hibernate.connection.autocommit", HIBERNATE_AUTOCOMMIT);
 		configuration.setProperty("hibernate.connection.driver_class", HIBERNATE_CONNECTION_DRIVER_CLASS);
 		configuration.setProperty("hibernate.connection.username", HIBERNATE_CONNECTION_USERNAME);
 		configuration.setProperty("hibernate.connection.password", HIBERNATE_CONNECTION_PASSWORD);
@@ -52,6 +55,7 @@ public class HibernateUtils {
 		configuration.setProperty("hibernate.current_session_context_class", HIBERNATE_CURRENT_SESSION_CONTEXT_CLASS);
 
 		configuration.addAnnotatedClass(Person.class);
+		configuration.addAnnotatedClass(Phone.class);
 
 		StandardServiceRegistryBuilder regBuilder = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties());
